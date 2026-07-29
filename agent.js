@@ -91,6 +91,7 @@ async function runAgent(userMessage) {
         const followUp = await groq.chat.completions.create({
             model: "llama-3.3-70b-versatile",
             messages: [
+                { role: "system", content: "You are a monitoring assistant. When given tool results, answer ONLY using that specific data. Do not explain general concepts — just report the actual real information returned." },
                 { role: "user", content: userMessage },
                 message,
                 {
@@ -107,4 +108,23 @@ async function runAgent(userMessage) {
     }
 }
 
-runAgent("Show me the payment service logs");
+const readline = require('readline');
+
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+function askQuestion() {
+    rl.question('Ask something (or type "exit" to quit): ', async(userInput) => {
+        if (userInput.trim().toLowerCase() === 'exit') {
+            rl.close();
+            return;
+        }
+
+        await runAgent(userInput);
+        askQuestion(); // ask again after getting a reply
+    });
+}
+
+askQuestion();
