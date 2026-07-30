@@ -21,10 +21,23 @@ async function getPaymentServiceLogs() {
     const data = await response.json();
     return data;
 }
+async function restartUserService() {
+    const response = await fetch('http://localhost:4001/restart', { method: 'POST' });
+    const data = await response.json();
+    return data;
+}
+
+async function restartPaymentService() {
+    const response = await fetch('http://localhost:4002/restart', { method: 'POST' });
+    const data = await response.json();
+    return data;
+}
 
 module.exports = {
     checkUserServiceStatus,
     checkPaymentServiceStatus,
     getUserServiceLogs,
-    getPaymentServiceLogs
+    getPaymentServiceLogs,
+    restartUserService,
+    restartPaymentService
 };

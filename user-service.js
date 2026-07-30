@@ -14,9 +14,9 @@ let serviceHealthy = true;
 
 app.get("/status", (req, res) => {
     if (serviceHealthy) {
-        res.json({ service: "user service", staus: "healthy", uptime: process.uptime() });
+        res.json({ service: "user service", status: "healthy", uptime: process.uptime() });
     } else {
-        res.status(500).json({ service: "user-service", staus: "down" });
+        res.status(500).json({ service: "user-service", status: "down" });
     }
 });
 
