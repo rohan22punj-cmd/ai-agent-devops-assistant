@@ -8,6 +8,7 @@ const {
     restartUserService,
     restartPaymentService
 } = require('./tools.js');
+const ActionLog = require('./models/ActionLog');
 
 const groq = new OpenAI({
     apiKey: process.env.GROQ_API_KEY,
@@ -105,6 +106,14 @@ async function runAgent(userMessage) {
                 const restartResult = await availableFunctions[restartMap[functionName]]();
                 result = {...result, restartAction: restartResult };
             }
+
+            await ActionLog.create({
+                question: userMessage,
+                toolCalled: functionName,
+                result: result,
+                autoRestarted: !!result.restartAction
+            });
+
 
             messages.push({
                 role: "tool",
