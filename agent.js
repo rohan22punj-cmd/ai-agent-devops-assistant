@@ -18,5 +18,5 @@ function askQuestion() {
         askQuestion();
     });
 }
-
+// nice man
 askQuestion();
