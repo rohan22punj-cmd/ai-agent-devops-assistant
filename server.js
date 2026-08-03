@@ -6,6 +6,7 @@ const { runAgent } = require('./agentLogic');
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.static('public'));
 
 const mongoose = require('mongoose');
 
@@ -15,10 +16,14 @@ mongoose.connect(process.env.MONGO_URI)
 
 
 app.post('/ask', async(req, res) => {
-    console.log("Received body:", req.body);
-    const userMessage = req.body.message;
-    const reply = await runAgent(userMessage);
-    res.json({ reply });
+    try {
+        const userMessage = req.body.message;
+        const reply = await runAgent(userMessage, req.body.history);
+        res.json({ reply });
+    } catch (error) {
+        console.error('Assistant request failed:', error.message);
+        res.status(500).json({ error: 'The assistant could not respond. Please try again.' });
+    }
 });
 
 const ActionLog = require('./models/ActionLog');
@@ -26,6 +31,17 @@ const ActionLog = require('./models/ActionLog');
 app.get('/history', async(req, res) => {
     const logs = await ActionLog.find().sort({ timestamp: -1 }).limit(20);
     res.json(logs);
+});
+
+app.get('/history/:id', async (req, res) => {
+  try {
+    const log = await ActionLog.findById(req.params.id);
+    if (!log) return res.status(404).json({ error: 'Not found' });
+    res.json(log);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'Server error' });
+  }
 });
 
 

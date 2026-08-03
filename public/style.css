@@ -1,0 +1,79 @@
+/* Premium dark‑mode glass‑morphism sidebar */
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #0d0d0d, #1a1a2e);
+  color: #e0e0e0;
+  overflow-x: hidden;
+}
+
+.toggle-btn {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: 0.5rem;
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 320px;
+  background: rgba(30, 30, 48, 0.7);
+  backdrop-filter: blur(12px);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  transform: translateX(-100%);
+  transition: transform 0.4s ease-in-out;
+  overflow-y: auto;
+  color: #e0e0e0;
+}
+.sidebar.open {
+  transform: translateX(0);
+}
+.sidebar.closed {
+  transform: translateX(-100%);
+}
+.sidebar h2 {
+  margin-top: 0;
+  font-weight: 600;
+  color: #fff;
+}
+#logList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+#logList li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  font-size: 0.9rem;
+  white-space: pre-wrap;
+}
+
+.content {
+  margin-left: 2rem;
+  padding: 2rem;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 260px;
+  }
+  .content {
+    margin-left: 1rem;
+    padding: 1rem;
+  }
+}
