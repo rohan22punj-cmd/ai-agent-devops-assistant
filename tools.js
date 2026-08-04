@@ -1,41 +1,34 @@
 require('dotenv').config();
 
+const USER_SERVICE_URL = process.env.USER_SERVICE_URL || 'http://localhost:4001';
+const PAYMENT_SERVICE_URL = process.env.PAYMENT_SERVICE_URL || 'http://localhost:4002';
+
 async function checkUserServiceStatus() {
-    const response = await fetch('http://localhost:4001/status');
+    const response = await fetch(`${USER_SERVICE_URL}/status`);
     const data = await response.json();
     return data;
 }
 
 async function checkPaymentServiceStatus() {
-    const response = await fetch('http://localhost:4002/status');
+    const response = await fetch(`${PAYMENT_SERVICE_URL}/status`);
     const data = await response.json();
     return data;
 }
 
 async function getUserServiceLogs() {
-    const response = await fetch('http://localhost:4001/logs');
+    const response = await fetch(`${USER_SERVICE_URL}/logs`);
     const data = await response.json();
     return data;
 }
 
 async function getPaymentServiceLogs() {
-    const response = await fetch('http://localhost:4002/logs');
-    const data = await response.json();
-    return data;
-}
-async function restartUserService() {
-    const response = await fetch('http://localhost:4001/restart', { method: 'POST' });
+    const response = await fetch(`${PAYMENT_SERVICE_URL}/logs`);
     const data = await response.json();
     return data;
 }
 
-async function restartPaymentService() {
-    const response = await fetch('http://localhost:4002/restart', { method: 'POST' });
-    const data = await response.json();
-    return data;
-}
 async function restartUserService() {
-    const response = await fetch('http://localhost:4001/restart', {
+    const response = await fetch(`${USER_SERVICE_URL}/restart`, {
         method: 'POST',
         headers: { 'x-api-key': process.env.RESTART_API_KEY }
     });
@@ -44,7 +37,7 @@ async function restartUserService() {
 }
 
 async function restartPaymentService() {
-    const response = await fetch('http://localhost:4002/restart', {
+    const response = await fetch(`${PAYMENT_SERVICE_URL}/restart`, {
         method: 'POST',
         headers: { 'x-api-key': process.env.RESTART_API_KEY }
     });

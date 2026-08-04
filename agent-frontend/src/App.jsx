@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 const HISTORY_KEY = 'devops-ai-chat-history';
 const ACTIVE_CHAT_KEY = 'devops-ai-active-chat';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 function readHistory() {
   try { return JSON.parse(localStorage.getItem(HISTORY_KEY)) || []; } catch { return []; }
